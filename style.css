@@ -1,0 +1,189 @@
+* {
+  background-color: rgb(0, 0, 0);
+  color: aliceblue;
+  margin: 0;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.container {
+  height: 100vh;
+  padding: 20px;
+  background-color: #080606;
+  position: relative;
+
+}
+
+.outerbox {
+  border: 1px solid grey;
+  display: flex;
+  flex-direction: column;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 90vh;
+}
+
+.topbaar {
+  height: 70px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 60px;
+}
+
+.board {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+
+.box {
+  height: 50px;
+  width: 50px;
+  border: 1px solid #1d1b8a;
+  box-sizing: border-box;
+  border-top: 0px;
+  border-right: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.snake {
+  background-color: rgb(38, 184, 25);
+  border-radius: 5px;
+
+}
+
+.snake-head {
+  background-color: rgb(17, 165, 42);
+  border-radius: 18px;
+  transition: transform 0.6s linear;
+  position: relative;
+
+}
+
+.snake-head::after,
+.snake-head::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgb(154, 226, 164);
+  position: absolute;
+
+
+}
+
+.snake-head.right::before {
+  top: 10px;
+  right: 8px;
+}
+
+.snake-head.right::after {
+  bottom: 10px;
+  right: 8px;
+}
+
+
+.snake-head.left::before {
+  top: 10px;
+  left: 8px;
+}
+
+.snake-head.left::after {
+  bottom: 10px;
+  left: 8px;
+}
+
+
+.snake-head.up::before {
+  top: 6px;
+  left: 10px;
+}
+
+.snake-head.up::after {
+  top: 6px;
+  right: 10px;
+}
+
+
+.snake-head.down::before {
+  bottom: 6px;
+  left: 10px;
+}
+
+.snake-head.down::after {
+  bottom: 6px;
+  right: 10px;
+}
+
+
+.food {
+  background-image: url("images/food.png");
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.7);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.btn-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  top: 0;
+  right: 0;
+  padding: 7px 0px;
+}
+
+.btn {
+  height: 40px;
+  width: 80px;
+  border: 1px solid white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn.play {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.game-over {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.8;
+  font-size: 30px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#input {
+  padding: 20px;
+  border: 4px solid red;
+}
