@@ -195,14 +195,16 @@
 /* ================= GAME OVER ================= */
 
 .game-over {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  display: none;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
   font-size: 30px;
-  background: rgba(0,0,0,0.8);
 }
 
 .game-over-btn{
