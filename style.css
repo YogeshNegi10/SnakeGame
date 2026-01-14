@@ -390,6 +390,10 @@
     border-radius: 12px;
   }
 
+  .game-over{
+    font-size: 24px;
+  }
+
 }
 
 @media (max-width: 767px) {
@@ -409,6 +413,8 @@
     font-size: 11px;
     padding: 4px 10px;
   }
+
+ 
 
 }
 
