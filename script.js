@@ -223,7 +223,7 @@ function resetGameState() {
   level = 0;
   lives = 3;
   speed = 600;
-  highScore = localStorage.getItem('highScore') || 20
+  highScore = localStorage.getItem('highScore') || 25
 
   snake = [{ x: Math.floor(rows / 2), y: Math.floor(cols / 2) }];
   direction = "right";
