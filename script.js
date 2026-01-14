@@ -23,6 +23,7 @@ let direction = "right"; // movement
 let nextDirection = "right"; // movement
 let headDirection = "right"; // eyes
 
+
 let score = Number(localStorage.getItem("score")) || 0;
 let level = Number(localStorage.getItem("level")) || 0;
 let lives = Number(localStorage.getItem("lives")) || 3;
@@ -263,39 +264,82 @@ function resetGameState() {
   // Reset play button
   playBtn.classList.remove("play");
 }
+// ===== CONTROLS (KEYBOARD + MOBILE) =====
 
-// ===== CONTROLS (INSTANT EYES) =====
+// ===== KEYBOARD CONTROLS (INSTANT EYES) =====
 document.addEventListener("keydown", (e) => {
-    if (e.key === " ") {
+
+  // Prevent page scroll on space
+  if (e.key === " ") {
     e.preventDefault();
   }
+
+  // Stop multiple direction changes in one frame
   if (!canChangeDirection) return;
 
+  // ===== MOVEMENT KEYS =====
   if (e.key === "ArrowUp" && direction !== "down") {
     nextDirection = "up";
     headDirection = "up";
+
   } else if (e.key === "ArrowDown" && direction !== "up") {
     nextDirection = "down";
     headDirection = "down";
+
   } else if (e.key === "ArrowLeft" && direction !== "right") {
     nextDirection = "left";
     headDirection = "left";
+
   } else if (e.key === "ArrowRight" && direction !== "left") {
     nextDirection = "right";
     headDirection = "right";
+
+  // ===== RESTART GAME =====
   } else if (e.key === " ") {
-    
     gameOverEl.style.display = "none";
-     resetGameState()
+    resetGameState();
   }
 
+  // Lock direction until next tick
   canChangeDirection = false;
 });
 
-document.querySelector(".up").onclick = () => nextDirection("UP");
-document.querySelector(".down").onclick = () => nextDirection("DOWN");
-document.querySelector(".left").onclick = () => nextDirection("LEFT");
-document.querySelector(".right").onclick = () => nextDirection("RIGHT");
+
+// ===== MOBILE BUTTON CONTROLS =====
+document.querySelector("#up").onclick = () => mobileControl("up");
+document.querySelector("#down").onclick = () => mobileControl("down");
+document.querySelector("#left").onclick = () => mobileControl("left");
+document.querySelector("#right").onclick = () => mobileControl("right");
+
+
+// ===== MOBILE CONTROL FUNCTION =====
+function mobileControl(dir) {
+
+  // Move Up
+  if (dir === "up" && direction !== "down") {
+    nextDirection = "up";
+    headDirection = "up";
+  }
+
+  // Move Down
+  if (dir === "down" && direction !== "up") {
+    nextDirection = "down";
+    headDirection = "down";
+  }
+
+  // Move Left
+  if (dir === "left" && direction !== "right") {
+    nextDirection = "left";
+    headDirection = "left";
+  }
+
+  // Move Right
+  if (dir === "right" && direction !== "left") {
+    nextDirection = "right";
+    headDirection = "right";
+  }
+}
+
 
 
 // ===== BUTTONS =====
