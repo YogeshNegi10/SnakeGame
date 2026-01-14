@@ -369,5 +369,60 @@
   color: white;
 }
 
+@media (max-width: 480px) {
 
- 
+  .topbaar {
+    height: auto;
+    padding: 8px 12px;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .topbaar h3 {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .username {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 12px;
+  }
+
+}
+
+@media (max-width: 767px) {
+
+  .topbaar {
+    height: auto;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .topbaar h3 {
+    font-size: 12px;
+  }
+
+  .username {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  .topbaar {
+    padding: 8px 20px;
+  }
+
+  .topbaar h3 {
+    font-size: 13px;
+  }
+
+  .username {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+}
