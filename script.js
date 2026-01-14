@@ -8,11 +8,11 @@ const displayLives = document.querySelector(".lives");
 const displayHighScore = document.querySelector(".high");
 const gameOverEl = document.querySelector(".game-over");
 const input = document.querySelector("#input");
+const usernameEl = document.querySelector(".username");
 
 const boxSize = 50;
 
 // ===== STATES =====
-
 let rows;
 let cols;
 let blocks = [];
@@ -27,7 +27,7 @@ let score = Number(localStorage.getItem("score")) || 0;
 let level = Number(localStorage.getItem("level")) || 0;
 let lives = Number(localStorage.getItem("lives")) || 3;
 let speed = Number(localStorage.getItem("speed")) || 600;
-let highScore = Number(localStorage.getItem("highScore")) || 30;
+let highScore = Number(localStorage.getItem("highScore")) || 2;
 
 displayScore.innerText = `Score : ${score}`;
 displayLevel.innerText = `Level : ${level}`;
@@ -38,7 +38,7 @@ displayHighScore.innerText = `HighScore : ${highScore}`;
 
 function createGrid() {
   board.innerHTML = "";
-  blocks = []
+  blocks = [];
 
   rows = Math.floor(board.clientHeight / boxSize);
   cols = Math.floor(board.clientWidth / boxSize);
@@ -106,7 +106,6 @@ function startGame() {
   clearInterval(intervalId);
 
   intervalId = setInterval(() => {
-
     direction = nextDirection; // APPLY buffered direction ONCE
 
     let head = { ...snake[0] };
@@ -200,10 +199,11 @@ function loseLife() {
 
   if (lives <= 0) {
     gameOverEl.style.display = "flex";
-    localStorage.clear();
+ 
     if (score > highScore) {
       localStorage.setItem("highScore", score);
     }
+       resetGameState()
     return;
   }
 
@@ -215,8 +215,60 @@ function loseLife() {
   renderFood();
 }
 
+function resetGameState() {
+  clearInterval(intervalId);
+
+  // Reset game state
+  score = 0;
+  level = 0;
+  lives = 3;
+  speed = 600;
+  highScore = localStorage.getItem('highScore')
+
+  snake = [{ x: Math.floor(rows / 2), y: Math.floor(cols / 2) }];
+  direction = "right";
+  nextDirection = "right";
+  headDirection = "right";
+  canChangeDirection = true;
+
+  // Update UI
+  displayScore.innerText = `Score : ${score}`;
+  displayLevel.innerText = `Level : ${level}`;
+  displayLives.innerText = `Lives : ${lives}`;
+  displayHighScore.innerText = `HighScore : ${highScore}`;
+
+  // Save ONLY game state (not user)
+  localStorage.setItem("score", score);
+  localStorage.setItem("level", level);
+  localStorage.setItem("lives", lives);
+  localStorage.setItem("speed", speed);
+
+  // Clear board visuals
+  document
+    .querySelectorAll(".snake, .snake-head, .food")
+    .forEach((el) =>
+      el.classList.remove(
+        "snake",
+        "snake-head",
+        "food",
+        "up",
+        "down",
+        "left",
+        "right"
+      )
+    );
+
+  // Rebuild board & snake
+  render();
+  // Reset play button
+  playBtn.classList.remove("play");
+}
+
 // ===== CONTROLS (INSTANT EYES) =====
 document.addEventListener("keydown", (e) => {
+    if (e.key === " ") {
+    e.preventDefault();
+  }
   if (!canChangeDirection) return;
 
   if (e.key === "ArrowUp" && direction !== "down") {
@@ -231,8 +283,10 @@ document.addEventListener("keydown", (e) => {
   } else if (e.key === "ArrowRight" && direction !== "left") {
     nextDirection = "right";
     headDirection = "right";
-  } else if (e.key === " " && lives === 0) {
-    location.reload();
+  } else if (e.key === " ") {
+    
+    gameOverEl.style.display = "none";
+     resetGameState()
   }
 
   canChangeDirection = false;
@@ -245,9 +299,7 @@ playBtn.addEventListener("click", function () {
 });
 
 resetBtn.addEventListener("click", () => {
-  clearInterval(intervalId);
-  localStorage.clear();
-  location.reload();
+  resetGameState();
 });
 
 // THROTTLING CONCEPT FOR CALCULATING GRID WHILE RESIZING THE SCREEN
@@ -266,15 +318,92 @@ function throttle(fn, delay) {
 let onResize = throttle(function () {
   clearInterval(intervalId);
   playBtn.classList.remove("play");
-  createGrid();
-  respawnSnake();
-  renderFood();
+  render();
 }, 100);
 
 window.addEventListener("resize", onResize);
 
 // INIT
-createGrid();
-respawnSnake();
-renderFood();
-renderSnake();
+
+function render() {
+  createGrid();
+  respawnSnake();
+  renderFood();
+  renderSnake();
+}
+
+render();
+
+window.addEventListener("load", () => {
+  const savedUser = localStorage.getItem("username");
+  if (savedUser) {
+    usernameEl.innerText = `Player: ${savedUser}`;
+  } else {
+    usernameEl.innerText = "Player: Guest";
+  }
+});
+
+// ================= OVERLAY ELEMENTS =================
+const landingOverlay = document.querySelector(".landing-overlay");
+const signinOverlay = document.querySelector(".signin-overlay");
+const signupOverlay = document.querySelector(".signup-overlay");
+
+// ================= LANDING BUTTONS =================
+const playGuestBtn = document.querySelector(".action-btn.guest");
+const openSigninBtn = document.querySelector(".action-btn.signin");
+const openSignupBtn = document.querySelector(".action-btn.signup");
+
+// ================= BACK BUTTONS =================
+const backBtns = document.querySelectorAll(".back-btn");
+
+// ================= INITIAL LOAD =================
+window.addEventListener("load", () => {
+  landingOverlay.style.display = "flex";
+  signinOverlay.style.display = "none";
+  signupOverlay.style.display = "none";
+});
+
+// ================= PLAY AS GUEST =================
+playGuestBtn.addEventListener("click", () => {
+  landingOverlay.style.display = "none";
+});
+
+// ================= OPEN SIGN IN =================
+openSigninBtn.addEventListener("click", () => {
+  landingOverlay.style.display = "none";
+  signinOverlay.style.display = "flex";
+});
+
+// ================= OPEN SIGN UP =================
+openSignupBtn.addEventListener("click", () => {
+  landingOverlay.style.display = "none";
+  signupOverlay.style.display = "flex";
+});
+
+// ================= BACK BUTTONS =================
+backBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    signinOverlay.style.display = "none";
+    signupOverlay.style.display = "none";
+    landingOverlay.style.display = "flex";
+  });
+});
+
+// ================= AUTH FORM PREVENT RELOAD =================
+document.querySelectorAll(".auth-form").forEach((form) => {
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("Auth successful (demo)");
+    signinOverlay.style.display = "none";
+    signupOverlay.style.display = "none";
+  });
+});
+
+window.addEventListener("load", () => {
+  const savedUser = localStorage.getItem("username");
+  if (savedUser) {
+    usernameEl.innerText = `Player: ${savedUser}`;
+  } else {
+    usernameEl.innerText = "Player: Guest";
+  }
+});
