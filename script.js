@@ -9,6 +9,7 @@ const displayHighScore = document.querySelector(".high");
 const gameOverEl = document.querySelector(".game-over");
 const input = document.querySelector("#input");
 const usernameEl = document.querySelector(".username");
+const gameOverBtnEl = document.querySelector(".game-over-btn");
 
 const boxSize = 50;
 
@@ -167,7 +168,7 @@ function startGame() {
 function updateLevel() {
   if ([5, 10, 15, 20, 25, 40].includes(score)) {
     level++;
-    speed = Math.max(100, speed - 150);
+    speed = Math.max(80, speed - 100);
     displayLevel.innerText = `Level : ${level}`;
     localStorage.setItem("level", level);
     localStorage.setItem("speed", speed);
@@ -309,6 +310,12 @@ document.querySelector("#up").onclick = () => mobileControl("up");
 document.querySelector("#down").onclick = () => mobileControl("down");
 document.querySelector("#left").onclick = () => mobileControl("left");
 document.querySelector("#right").onclick = () => mobileControl("right");
+
+// ===== FOR MOBILE BUTTON CONTROL =====
+gameOverBtnEl.addEventListener('click',()=>{
+  gameOverEl.style.display = "none";
+    resetGameState();
+})  
 
 
 // ===== MOBILE CONTROL FUNCTION =====

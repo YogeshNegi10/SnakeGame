@@ -205,6 +205,10 @@
   background: rgba(0,0,0,0.8);
 }
 
+.game-over-btn{
+  display: none;
+}
+
 /* ================= OVERLAYS ================= */
 
 .landing-overlay,
@@ -423,6 +427,14 @@
   display: flex;
  
 }
+.keyboard-btn{
+  display: none;
+}
+.game-over-btn{
+  display: block;
+  margin-top: 5px;
+  
+}
 
 }
 
@@ -443,6 +455,15 @@
     font-size: 11px;
     padding: 4px 10px;
   }
+
+  .keyboard-btn{
+  display: none;
+}
+.game-over-btn{
+  display: block;
+  margin-top: 5px;
+  
+}
 
  
 
