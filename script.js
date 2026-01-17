@@ -100,7 +100,7 @@ document.addEventListener(
       bgMusic.play().catch(() => {});
     }
   },
-  { once: true }
+  { once: false }
 );
 
 soundBtn.addEventListener("click", () => {
@@ -337,6 +337,8 @@ function loseLife() {
         "right"
       )
     );
+
+
     
   setTimeout(() => {
     respawnSnake();
@@ -504,3 +506,20 @@ function screenShake() {
   void board.offsetWidth;
   board.classList.add("shake");
 }
+
+
+const leaderboardBtn = document.getElementById("leaderboardBtn");
+const leaderboardPanel = document.getElementById("leaderboard-wrapper");
+const closeBoard = document.getElementById("closeBoard");
+
+
+
+leaderboardBtn.addEventListener("click", () => {
+  leaderboardPanel.classList.add("active");
+  console.log('hi')
+});
+
+closeBoard.addEventListener("click", () => {
+  leaderboardPanel.classList.remove("active");
+   console.log('hi')
+});

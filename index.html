@@ -120,23 +120,32 @@
     <!-- ================= GAME UI ================= -->
     <div class="container">
       <div class="outerbox">
-        <div class="topbaar">
-          <div class="user">
-            <h3 class="username">Guest</h3>
-          </div>
-          <div class="left">
-            <h3 class="score"></h3>
-         </div>
-          <div class="middle">
-            <h3 class="level"></h3>
-         </div>
-          <div class="right">
-            <h3 class="lives"></h3>
-         </div>
-          <div class="highScore">
-            <h3 class="high"></h3>
-         </div>
-        </div>
+       <div class="topbaar">
+         <div class="leaderboard-icon" id="leaderboardBtn">🏆 Leaderboard</div>
+  <div class="user">
+    <h3 class="username">Guest</h3>
+  </div>
+
+  <div class="left">
+    <h3 class="score"></h3>
+  </div>
+
+  <div class="middle">
+    <h3 class="level"></h3>
+  </div>
+
+  <div class="right">
+    <h3 class="lives"></h3>
+  </div>
+
+  <div class="highScore">
+    <h3 class="high"></h3>
+  </div>
+
+  <!-- ✅ Leaderboard Icon (ADDED) -->
+ 
+</div>
+
 
         <div class="board"></div>
 
@@ -173,6 +182,153 @@
           <button class="btn game-over-btn">Play Again</button>
         </div>
       </div>
+
+     <div id="leaderboard-wrapper" class="leaderboard-wrapper">
+
+  <!-- ===== TOP 3 PLAYERS ===== -->
+  <div class="top-players">
+      <span class="close-board" id="closeBoard">✖</span>
+    <div class="player-card second">
+      <img src="https://i.pravatar.cc/100?img=12" />
+      <h4>Shane Abellana</h4>
+      <span class="badge">Shane</span>
+      <p>Score <b>1310</b></p>
+      <small>Rank #2</small>
+    </div>
+
+    <div class="player-card first">
+      <span class="pro">PRO</span>
+      <img src="https://i.pravatar.cc/100?img=32" />
+      <h4>Gino Dederick</h4>
+      <span class="badge pink">@gino</span>
+      <p>Score <b>1355</b></p>
+      <small>Rank #1</small>
+    </div>
+
+    <div class="player-card third">
+      <img src="https://i.pravatar.cc/100?img=5" />
+      <h4>Robert Pawelek</h4>
+      <span class="badge">Robert</span>
+      <p>Score <b>1260</b></p>
+      <small>Rank #3</small>
+    </div>
+
+  </div>
+
+  <!-- ===== TABLE ===== -->
+  <div class="leaderboard-table">
+    <div class="table-head">
+      <span>Rank</span>
+      <span>Name</span>
+      <span>Username</span>
+      <span>Total Time</span>
+      <span>Challenges</span>
+      <span>Score</span>
+    </div>
+
+    <div class="table-row">
+      <span>4</span>
+      <span>Xioma Domka</span>
+      <span class="tag">@xiomara</span>
+      <span>16h 18m 53s</span>
+      <span>26</span>
+      <span>1230</span>
+    </div>
+
+    <div class="table-row">
+      <span>5</span>
+      <span>Caroline Tilo</span>
+      <span class="tag">@caroline</span>
+      <span>19h 21m 5s</span>
+      <span>32</span>
+      <span>1190</span>
+    </div>
+
+    <div class="table-row">
+      <span>6</span>
+      <span>Myron Battistini</span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>7</span>
+      <span>Myron Battistini</span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>8</span>
+      <span>Myron Battistini</span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>9</span>
+      <span>Myron Battistini</span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>10</span>
+      <span>Myron Battistini</span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>10</span>
+      <span>Myron </span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>10</span>
+      <span>Myron </span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>10</span>
+      <span>Myron </span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>10</span>
+      <span>Myron </span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+    <div class="table-row">
+      <span>10</span>
+      <span>Myron </span>
+      <span class="tag">@chanel</span>
+      <span>12h 30m 33s</span>
+      <span>24</span>
+      <span>1095</span>
+    </div>
+  </div>
+
+</div>
+
+
     </div>
     <!-- ================= GAME UI END ================= -->
 
