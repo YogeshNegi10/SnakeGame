@@ -124,10 +124,18 @@
           <div class="user">
             <h3 class="username">Guest</h3>
           </div>
-          <div class="left"><h3 class="score"></h3></div>
-          <div class="middle"><h3 class="level"></h3></div>
-          <div class="right"><h3 class="lives"></h3></div>
-          <div class="highScore"><h3 class="high"></h3></div>
+          <div class="left">
+            <h3 class="score"></h3>
+         </div>
+          <div class="middle">
+            <h3 class="level"></h3>
+         </div>
+          <div class="right">
+            <h3 class="lives"></h3>
+         </div>
+          <div class="highScore">
+            <h3 class="high"></h3>
+         </div>
         </div>
 
         <div class="board"></div>
@@ -135,7 +143,13 @@
         <div class="btn-container">
           <button class="btn">Play</button>
           <button class="btn reset">Reset</button>
+                  <button id="soundToggle" class="sound-btn">
+  🔊
+</button>
         </div>
+
+
+
 
         <div class="controls">
           <button class="controls_btn" id="up">↑</button>
@@ -148,8 +162,15 @@
 
         <div class="game-over">
           <h1>Game Over</h1>
+
+          <div class="scores">
+            <p>Your Score: <span id="yourScore">0</span></p>
+            <p>High Score: <span id="highScore">0</span></p>
+          </div>
+
           <p class="keyboard-btn">Press Space Bar to Play again</p>
-           <button class="btn game-over-btn">Play Again </button>
+
+          <button class="btn game-over-btn">Play Again</button>
         </div>
       </div>
     </div>
