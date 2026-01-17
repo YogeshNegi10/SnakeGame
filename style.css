@@ -625,7 +625,7 @@
 /* ===== Leaderboard Icon ===== */
 .leaderboard-icon {
   cursor: pointer;
-  font-size: 20px;
+  font-size: 15px;
   margin-left: 10px;
   animation: shine 1.5s infinite alternate;
 }
@@ -701,6 +701,11 @@
     font-size: 12px;
     padding: 5px 12px;
   }
+
+  .leaderboard-table {
+  max-height: 600px
+
+}
 }
 
 .game-over {
@@ -825,3 +830,9 @@ right:8px;
   color: #ff3a3a;
 }
 
+
+.icon{
+ display: flex;
+ gap: 30px;
+ align-items: center;
+}
