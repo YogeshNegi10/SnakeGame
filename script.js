@@ -516,10 +516,10 @@ const closeBoard = document.getElementById("closeBoard");
 
 leaderboardBtn.addEventListener("click", () => {
   leaderboardPanel.classList.add("active");
-  console.log('hi')
+ 
 });
 
 closeBoard.addEventListener("click", () => {
   leaderboardPanel.classList.remove("active");
-   console.log('hi')
+
 });
