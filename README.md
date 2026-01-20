@@ -1,4 +1,4 @@
-Snake Game 🐍🎮 https://snake-game-chi-livid.vercel.app/
+Snake Game 🐍🎮 https://snake-game-wine-beta.vercel.app
 
 Snake Game is a classic arcade-style game built using HTML, CSS, and JavaScript. The player controls a snake that moves across a grid to eat food and grow longer. Each time the snake eats food, the score increases and the game becomes more challenging. The game ends if the snake collides with the wall or its own body.
 
