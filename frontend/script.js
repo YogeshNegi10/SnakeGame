@@ -192,12 +192,12 @@ document.querySelectorAll(".auth-form").forEach((form) => {
 
 // ===== GOOGLE LOGIN =====
 document.getElementById("googleLogin").addEventListener("click", () => {
-  window.location.href = "http://localhost:5000/api/auth/google";
+  window.location.href = "https://snakegame-qzle.onrender.com/api/auth/google";
 });
 
 // ===== GOOGLE RESIGTER =====
 document.getElementById("googleRegister").addEventListener("click", () => {
-  window.location.href = "http://localhost:5000/api/auth/google";
+  window.location.href = "https://snakegame-qzle.onrender.com/api/auth/google";
 });
 
 // ===== SOUND STATE =====
