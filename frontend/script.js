@@ -37,7 +37,7 @@ window.addEventListener("load", async () => {
     localStorage.setItem("token", urlToken);
 
     // clean URL
-    window.history.replaceState({}, document.title, "/frontend/index.html");
+    window.history.replaceState({}, document.title, "/");
   }
 
   // ================== 2. CHECK TOKEN ==================
