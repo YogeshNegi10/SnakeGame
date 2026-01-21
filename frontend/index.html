@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Snake Game</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   </head>
   <body>
     <!-- ================= LANDING POPUP ================= -->
@@ -30,7 +31,7 @@
         <h2>Welcome Back</h2>
         <p>Continue your game 🎮</p>
 
-        <button class="google-btn">
+        <button class="google-btn" id="googleLogin">
           <svg
             width="20"
             height="20"
@@ -59,10 +60,12 @@
 
         <div class="divider"><span>OR</span></div>
 
-        <form class="auth-form">
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
+        <form data-type="signin" class="auth-form">
+          <input type="email" name="email" placeholder="Email" />
+          <input type="password" name="password" placeholder="Password" />
+           <span class="error">All fields are required</span>
           <button class="primary-btn">Sign In</button>
+          
         </form>
 
         <button class="back-btn">← Back</button>
@@ -76,7 +79,7 @@
         <h2>Create Account</h2>
         <p>Save your progress & scores</p>
 
-        <button class="google-btn">
+        <button class="google-btn" id="googleRegister">
           <svg
             width="20"
             height="20"
@@ -105,11 +108,12 @@
 
         <div class="divider"><span>OR</span></div>
 
-        <form class="auth-form">
-          <input type="text" placeholder="Username" required />
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <button class="primary-btn">Create Account</button>
+        <form class="auth-form" data-type="signup">
+          <input type="text" name="username" placeholder="Username" />
+          <input type="email" name="email" placeholder="Email" />
+          <input type="password" name="password" placeholder="Password" />
+          <span class="error">All fields are required</span>
+          <button class="primary-btn" >Create Account</button>
         </form>
 
         <button class="back-btn">← Back</button>
@@ -126,12 +130,11 @@
               🏆 Leaderboard
             </div>
 
-    
             <div class="user">
               <h3 class="username">Guest</h3>
             </div>
           </div>
-    
+
           <div class="left">
             <h3 class="score"></h3>
           </div>
@@ -147,10 +150,7 @@
           <div class="highScore">
             <h3 class="high"></h3>
           </div>
-         </div> 
-
-
-   
+        </div>
 
         <div class="board"></div>
 
@@ -158,6 +158,7 @@
           <button class="btn">Play</button>
           <button class="btn reset">Reset</button>
           <button id="soundToggle" class="sound-btn">🔊</button>
+          <button class="logout-btn">⬅️</button>
         </div>
 
         <div class="controls">
@@ -189,8 +190,8 @@
           <span class="close-board" id="closeBoard">✖</span>
           <div class="player-card second">
             <img src="https://i.pravatar.cc/100?img=12" />
-            <h4>Shane Abellana</h4>
-            <span class="badge">Shane</span>
+            <h4>Akhil Rana</h4>
+            <span class="badge">@akhil</span>
             <p>Score <b>1310</b></p>
             <small>Rank #2</small>
           </div>
@@ -198,16 +199,16 @@
           <div class="player-card first">
             <span class="pro">PRO</span>
             <img src="https://i.pravatar.cc/100?img=32" />
-            <h4>Gino Dederick</h4>
-            <span class="badge pink">@gino</span>
+            <h4>Yogesh Negi</h4>
+            <span class="badge pink">@leoyogesh</span>
             <p>Score <b>1355</b></p>
             <small>Rank #1</small>
           </div>
 
           <div class="player-card third">
             <img src="https://i.pravatar.cc/100?img=5" />
-            <h4>Robert Pawelek</h4>
-            <span class="badge">Robert</span>
+            <h4>Sachin Rana</h4>
+            <span class="badge">@sachin</span>
             <p>Score <b>1260</b></p>
             <small>Rank #3</small>
           </div>
@@ -322,7 +323,7 @@
       </div>
     </div>
     <!-- ================= GAME UI END ================= -->
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
