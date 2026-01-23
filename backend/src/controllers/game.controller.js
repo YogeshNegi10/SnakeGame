@@ -61,3 +61,114 @@ export const gameEnd = async (req, res) => {
     });
   }
 };
+
+
+
+export const getPlayerStat = async (req, res) => {
+  try {
+    const stats = await GameSession.aggregate([
+      {
+        $match: { endedAt: { $ne: null } }
+      },
+
+      // 1️⃣ GROUP PLAYER DATA
+      {
+        $group: {
+          _id: "$userId",
+          totalSessions: { $sum: 1 },
+          totalScore: { $sum: "$score" },
+          bestScore: { $max: "$score" },
+          totalTime: { $sum: "$totalTime" },
+          avgSurvivalTime: { $avg: "$totalTime" }
+        }
+      },
+
+      // 2️⃣ BASE LEVEL INDEX (0–4)
+      {
+        $addFields: {
+          baseLevelIndex: {
+            $switch: {
+              branches: [
+                { case: { $lt: ["$avgSurvivalTime", 30] }, then: 0 }, // Bronze
+                { case: { $lt: ["$avgSurvivalTime", 60] }, then: 1 }, // Silver
+                { case: { $lt: ["$avgSurvivalTime", 120] }, then: 2 }, // Gold
+                { case: { $lt: ["$avgSurvivalTime", 240] }, then: 3 }, // Platinum
+              ],
+              default: 4 // Diamond
+            }
+          }
+        }
+      },
+
+      // 3️⃣ SCORE BOOST
+      {
+        $addFields: {
+          scoreBoost: {
+            $switch: {
+              branches: [
+                { case: { $gte: ["$bestScore", 100] }, then: 2 },
+                { case: { $gte: ["$bestScore", 50] }, then: 1 }
+              ],
+              default: 0
+            }
+          }
+        }
+      },
+
+      // 4️⃣ FINAL LEVEL INDEX (CLAMPED)
+      {
+        $addFields: {
+          finalLevelIndex: {
+            $min: [
+              { $add: ["$baseLevelIndex", "$scoreBoost"] },
+              4
+            ]
+          }
+        }
+      },
+
+      // 5️⃣ LEVEL NAME
+      {
+        $addFields: {
+          level: {
+            $arrayElemAt: [
+              ["Bronze", "Silver", "Gold", "Platinum", "Diamond"],
+              "$finalLevelIndex"
+            ]
+          }
+        }
+      },
+
+      // 6️⃣ JOIN USER
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      { $unwind: "$user" },
+
+      // 7️⃣ FINAL RESPONSE
+      {
+        $project: {
+          _id: 0,
+          userId: "$_id",
+          username: "$user.username",
+          level: 1,
+          bestScore: 1,
+          avgSurvivalTime: { $round: ["$avgSurvivalTime", 1] },
+          totalSessions: 1,
+          totalTime: 1,
+          totalScore:1
+        }
+      }
+    ]);
+
+    res.json({ success: true, stats });
+
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};

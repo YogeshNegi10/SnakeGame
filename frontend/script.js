@@ -28,7 +28,8 @@ const openSignupBtn = document.querySelector(".action-btn.signup");
 const backBtns = document.querySelectorAll(".back-btn");
 
 // ================= INITIAL LOAD =================
-window.addEventListener("load", async () => {
+  async function fetchUserDetails (){
+
   // ================== 1. GOOGLE REDIRECT TOKEN ==================
   const params = new URLSearchParams(window.location.search);
   const urlToken = params.get("token");
@@ -55,6 +56,8 @@ window.addEventListener("load", async () => {
   }
 
   // ================== 3. FETCH USER ==================
+  
+  
   try {
     const res = await axios.get(`${API_BASE}/auth/userProfile`, {
       headers: {
@@ -64,9 +67,13 @@ window.addEventListener("load", async () => {
 
     const user = res.data.user;
 
-    // ================== 4. UPDATE UI ==================
-    document.querySelector(".username").textContent =
-      `Player : ${user.username}`;
+    // ================== 4. UPDATE UI =================
+    usernameEl.dataset.userId = `${user.id}`;
+    usernameEl.textContent = `Player : ${user.username}`;
+    
+        if (usernameEl.dataset.userId) {
+          usernameEl.classList.add("active");
+        }
 
     landingOverlay.style.display = "none";
   } catch (err) {
@@ -80,7 +87,14 @@ window.addEventListener("load", async () => {
 
   // ================== 5. SHOW PAGE ==================
   document.body.style.visibility = "visible";
-});
+};
+
+window.addEventListener('load',()=>{
+  fetchUserDetails()
+})
+
+
+   
 
 // ================= PLAY AS GUEST =================
 playGuestBtn.addEventListener("click", () => {
@@ -178,7 +192,9 @@ document.querySelectorAll(".auth-form").forEach((form) => {
 
       if (type === "signin") {
         localStorage.setItem("token", res.data.token);
-        usernameEl.innerText = `Player: ${res.data.user.username}`;
+        
+        fetchUserDetails()
+
         signinOverlay.style.display = "none";
         form.reset();
         console.log("✅ Logged in successfully!");
@@ -269,7 +285,7 @@ let nextDirection = "right";
 let headDirection = "right";
 let canChangeDirection = true;
 let gameStartTime = 0;
-let currentSessionId  = null;
+let currentSessionId = null;
 
 let score = Number(localStorage.getItem("score")) || 0;
 let level = Number(localStorage.getItem("level")) || 0;
@@ -570,7 +586,7 @@ function mobileControl(dir) {
 
 // ===== BUTTONS =====
 playBtn.addEventListener("click", async () => {
-   const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
   if (token) {
     await startGameSession(); // only logged-in users
   } else {
@@ -628,8 +644,7 @@ const leaderboardPanel = document.getElementById("leaderboard-wrapper");
 const closeBoard = document.getElementById("closeBoard");
 
 leaderboardBtn.addEventListener("click", () => {
-  loadLeaderboard()
-  
+  loadLeaderboard();
 });
 
 closeBoard.addEventListener("click", () => {
@@ -637,8 +652,7 @@ closeBoard.addEventListener("click", () => {
 });
 
 async function startGameSession() {
-
-   if (gameStartTime) return;
+  if (gameStartTime) return;
 
   gameStartTime = Date.now();
   const token = localStorage.getItem("token");
@@ -652,19 +666,17 @@ async function startGameSession() {
         },
       },
     );
-       
-   
-    currentSessionId = res.data.sessionId
 
+    currentSessionId = res.data.sessionId;
   } catch (err) {
     console.error("Auth failed:", err.response?.data || err.message);
   }
 }
 
 async function endGameSession(score, gamePlayedTime) {
-
   const token = localStorage.getItem("token");
-   if (!token || !currentSessionId) return;
+
+  if (!token || !currentSessionId) return;
   try {
     const res = await axios.post(
       `${API_BASE}/game/end`,
@@ -675,32 +687,25 @@ async function endGameSession(score, gamePlayedTime) {
         },
       },
     );
-     currentSessionId = null;
+    currentSessionId = null;
   } catch (err) {
     console.error("Auth failed:", err.response?.data || err.message);
   }
 }
-
 
 // =========== LEADERBOARD ==============
 
 async function loadLeaderboard() {
-
   try {
-    const res = await axios.get(
-      `${API_BASE}/public/leaderboard`,
-      {},
-    );
- 
-   let users = res.data.leaderboard
-   renderLeaderboard(users)
-   leaderboardPanel.classList.add("active");
+    const res = await axios.get(`${API_BASE}/public/leaderboard`, {});
 
+    let users = res.data.leaderboard;
+    renderLeaderboard(users);
+    leaderboardPanel.classList.add("active");
   } catch (err) {
     console.error("Auth failed:", err.response?.data || err.message);
   }
 }
-
 
 function renderTopPlayer(rank, user) {
   const el = document.getElementById(`rank-${rank}`);
@@ -715,7 +720,6 @@ function renderTopPlayer(rank, user) {
     <small>Rank #${rank}</small>
   `;
 }
-
 
 const FAKE_PLAYERS = [
   {
@@ -759,10 +763,8 @@ function renderTable(players) {
   const container = document.querySelector(".leaderboard-rows");
   container.innerHTML = "";
 
-
-  const dataToRender =
-    players && players.length > 0 ? players : FAKE_PLAYERS;
- dataToRender .forEach((player, index) => {
+  const dataToRender = players && players.length > 0 ? players : FAKE_PLAYERS;
+  dataToRender.forEach((player, index) => {
     const rank = index + 4;
 
     const row = document.createElement("div");
@@ -781,6 +783,16 @@ function renderTable(players) {
 }
 
 
+function renderLeaderboard(leaderboard) {
+  renderTopPlayer(1, leaderboard[0]);
+  renderTopPlayer(2, leaderboard[1]);
+  renderTopPlayer(3, leaderboard[2]);
+
+  renderTable(leaderboard.slice(3));
+}
+
+// ================ Helper ===============
+
 function formatTime(seconds) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -789,11 +801,62 @@ function formatTime(seconds) {
   return `${h}h ${m}m ${s}s`;
 }
 
+// ======================== userStats =========================
 
-function renderLeaderboard(leaderboard) {
-  renderTopPlayer(1, leaderboard[0]);
-  renderTopPlayer(2, leaderboard[1]);
-  renderTopPlayer(3, leaderboard[2]);
+async function loadPlayeruserStats(userId) {
+  const token = localStorage.getItem("token");
 
-  renderTable(leaderboard.slice(3));
+  try {
+    const res = await fetch("http://localhost:5000/api/game/player-stats", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+
+    if (!data.success) return;
+
+    let stats = data.stats;
+       console.log(stats)
+    const userStats = stats.find((stat) => stat.userId === userId);
+
+    // 🔥 Fill UI
+    document.getElementById("playerLevel").textContent = userStats.level;
+    const container = document.getElementById("player-image");
+    const img = container.querySelector("img");
+    img.src = `https://i.pravatar.cc/100?u=${userStats.userId}`;
+    document.getElementById("gamesPlayed").textContent =
+      userStats.totalSessions;
+    document.getElementById("bestScore").textContent = userStats.bestScore;
+    document.getElementById("avgSurvival").textContent =
+      userStats.avgSurvivalTime + "s";
+    document.getElementById("totalTime").textContent = formatTime(
+      userStats.totalTime,
+    );
+
+    document.getElementById("playerName").textContent = userStats.username;
+    document.getElementById("totalPoints").textContent = `TotalPoints - ${userStats.totalScore} `;
+    mvpOverlay.classList.add("active");
+  } catch (err) {
+    console.error("Failed to load player userStats", err);
+  }
 }
+
+const mvpOverlay = document.getElementById("mvpOverlay");
+const closeBtn = document.getElementById("closemvpOverlay");
+
+function openMvpOverlay() {
+  const userId = usernameEl.dataset.userId;
+  loadPlayeruserStats(userId);
+}
+
+closeBtn.addEventListener("click", () => {
+  mvpOverlay.classList.remove("active");
+});
+
+usernameEl.addEventListener("click", () => {
+  if (!usernameEl.dataset.userId) return;
+
+  openMvpOverlay();
+});
